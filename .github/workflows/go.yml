@@ -22,7 +22,8 @@ jobs:
       run: go build -v ./...
       
     - name: Create Config file
-      run : touch config.json
+      run : touch config.json,
+            echo "for test purpose" > config.json
       
     - name: Run
       run: go run main.go help
