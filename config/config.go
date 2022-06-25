@@ -11,7 +11,7 @@ import (
 
 var Filename = "config.json"
 var Directory, _ = os.Getwd()
-var FilePath = Directory + "\\" + Filename
+var FilePath = Directory + "/" + Filename
 
 type JsonConfig struct {
 	Key       string `json:"key"`
