@@ -26,8 +26,16 @@ jobs:
             
     - name: Fill conf file
       run : |
-            echo "for testing" >> config.json
+            cat <<EOF > config.json
+             {
+              "key": "key-from-solusvm",
+              "hash": "hash-from-solusvm",
+              "master-url": "https://vps.dyjix.eu/api/client/command.php"
+            }
+            EOF
             cat config.json
+            pwd
+            ls -la
       
     - name: Run
       run: go run main.go help
