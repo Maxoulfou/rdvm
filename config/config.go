@@ -7,11 +7,13 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"runtime"
 )
 
 var Filename = "config.json"
 var Directory, _ = os.Getwd()
-var FilePath = Directory + "/" + Filename
+var FilePathWin = Directory + "\\" + Filename
+var FilePathUnix = Directory + "/" + Filename
 
 type JsonConfig struct {
 	Key       string `json:"key"`
@@ -25,8 +27,7 @@ type Config interface {
 
 func (receiver *JsonConfig) Load() *JsonConfig {
 	if CheckConfigFile() {
-
-		JsonFile, ErrReadJsonFile := ioutil.ReadFile(FilePath)
+		JsonFile, ErrReadJsonFile := ioutil.ReadFile(CheckOsForConfig())
 		if ErrReadJsonFile != nil {
 			log.Fatalf("JSON JSON struct ErrReadJsonFile: " + ErrReadJsonFile.Error())
 		}
@@ -43,7 +44,7 @@ func (receiver *JsonConfig) Load() *JsonConfig {
 }
 
 func CheckConfigFile() bool {
-	file, err := os.OpenFile(FilePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile(CheckOsForConfig(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 
 		panic(err)
@@ -58,7 +59,7 @@ func CheckConfigFile() bool {
 	File, _ := file.Stat()
 	if File.Size() == 0 {
 		fmt.Println("Please, fill config file. Located at -> config.json")
-		fmt.Println(FilePath)
+		fmt.Println(CheckOsForConfig())
 
 		os.Exit(1)
 
@@ -83,4 +84,15 @@ func CheckConfigDirectory() bool {
 	}
 
 	return true
+}
+
+func CheckOsForConfig() string {
+	var FilePath = ""
+	if runtime.GOOS == "windows" {
+		FilePath = FilePathWin
+	} else {
+		FilePath = FilePathUnix
+	}
+
+	return FilePath
 }
