@@ -59,7 +59,6 @@ func CheckConfigFile() bool {
 	File, _ := file.Stat()
 	if File.Size() == 0 {
 		fmt.Println("Please, fill config file. Located at -> config.json")
-		fmt.Println(CheckOsForConfig())
 
 		os.Exit(1)
 
