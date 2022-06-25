@@ -25,7 +25,8 @@ jobs:
       run : touch config.json,
             
     - name: Fill conf file
-      run : echo "for test purpose" > config.json
+      run : echo "for test purpose" > config.json,
+            cat config.json
       
     - name: Run
       run: go run main.go help
