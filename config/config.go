@@ -1,3 +1,7 @@
+/*
+Copyright © 2022 BROCHIER MAXENCE maxence@brochier.xyz
+
+*/
 package config
 
 import (
@@ -9,21 +13,6 @@ import (
 	"os"
 	"runtime"
 )
-
-var Filename = "config.json"
-var Directory, _ = os.Getwd()
-var FilePathWin = Directory + "\\" + Filename
-var FilePathUnix = Directory + "/" + Filename
-
-type JsonConfig struct {
-	Key       string `json:"key"`
-	Hash      string `json:"hash"`
-	MasterUrl string `json:"master-url"`
-}
-
-type Config interface {
-	Load()
-}
 
 func (receiver *JsonConfig) Load() *JsonConfig {
 	if CheckConfigFile() {
@@ -45,10 +34,12 @@ func (receiver *JsonConfig) Load() *JsonConfig {
 
 func CheckConfigFile() bool {
 	file, err := os.OpenFile(CheckOsForConfig(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+
 	if err != nil {
 
 		panic(err)
 	}
+
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
@@ -71,11 +62,12 @@ func CheckConfigFile() bool {
 // UNUSED FUNCTION
 func CheckConfigDirectory() bool {
 	path := "config"
+
 	if _, err := os.Stat(path); errors.Is(err, os.ErrNotExist) {
 		err := os.Mkdir(path, os.ModePerm)
+
 		if err != nil {
 			log.Println(err)
-
 			os.Exit(1)
 
 			return false
@@ -87,6 +79,7 @@ func CheckConfigDirectory() bool {
 
 func CheckOsForConfig() string {
 	var FilePath = ""
+
 	if runtime.GOOS == "windows" {
 		FilePath = FilePathWin
 	} else {
