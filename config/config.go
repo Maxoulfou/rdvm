@@ -16,7 +16,7 @@ import (
 
 func (receiver *JsonConfig) Load() *JsonConfig {
 	if CheckConfigFile() {
-		JsonFile, ErrReadJsonFile := ioutil.ReadFile(CheckOsForConfig())
+		JsonFile, ErrReadJsonFile := ioutil.ReadFile(DetectOsForConfig())
 		if ErrReadJsonFile != nil {
 			log.Fatalf("JSON JSON struct ErrReadJsonFile: " + ErrReadJsonFile.Error())
 		}
@@ -33,7 +33,7 @@ func (receiver *JsonConfig) Load() *JsonConfig {
 }
 
 func CheckConfigFile() bool {
-	file, err := os.OpenFile(CheckOsForConfig(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile(DetectOsForConfig(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
 	if err != nil {
 
@@ -77,7 +77,7 @@ func CheckConfigDirectory() bool {
 	return true
 }
 
-func CheckOsForConfig() string {
+func DetectOsForConfig() string {
 	var FilePath = ""
 
 	if runtime.GOOS == "windows" {
