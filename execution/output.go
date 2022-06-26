@@ -1,3 +1,7 @@
+/*
+Copyright © 2022 BROCHIER MAXENCE maxence@brochier.xyz
+
+*/
 package execution
 
 import "fmt"
